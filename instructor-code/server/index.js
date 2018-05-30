@@ -68,7 +68,7 @@ app.get('/auth/callback', (req, res) => {
     const userData = response.data;
     const db = req.app.get('db');
     return db.find_user_by_auth0_id(userData.sub).then(users => {
-      if(users.length){
+      if (users.length) {
         const userFromDb = users[0];
         req.session.user = userFromDb;
         res.redirect('/');
@@ -77,16 +77,13 @@ app.get('/auth/callback', (req, res) => {
           userData.sub,
           userData.email,
           userData.name,
-          userData.picture
+          userData.picture,
         ]).then(newUsers => {
-          req.session.user = newUsers;
+          req.session.user = newUsers[0];
           res.redirect('/');
-        })
+        });
       }
     })
-    
-    //code here...
-    
   }
    
   //Final Code, Uncomment after completeing steps 1-4 above
@@ -126,3 +123,5 @@ const SERVER_PORT = process.env.SERVER_PORT || 3040;
 app.listen(SERVER_PORT, () => {
   console.log('Server listening on port ' + SERVER_PORT);
 });
+
+
